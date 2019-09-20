@@ -1,0 +1,9 @@
+.wrapper-table {
+  max-height: 300px;
+  overflow: auto;
+  width: 100%;
+}
+
+.have-done {
+  text-decoration: line-through;
+}

@@ -19,13 +19,23 @@ const todoModal = mongoose.model("todos", todoSchema);
 
 function getTodos() {
   var defer = q.defer();
-  todoModal.find({}, (err, data) => {
-    if (err) {
-      console.log("get all todos err ", err);
-      defer.reject(err);
+  todoModal.find(
+    {},
+    [],
+    {
+      sort: {
+        createdAt: -1
+      }
+    },
+
+    (err, data) => {
+      if (err) {
+        console.log("get all todos err ", err);
+        defer.reject(err);
+      }
+      defer.resolve(data);
     }
-    defer.resolve(data);
-  });
+  );
   return defer.promise;
 }
 
@@ -69,6 +79,28 @@ function updateTodo(todo) {
 }
 
 /**
+ * update status todo rely on _id
+ * @param {todo} - Object todo { _id , status}
+ */
+function updateTodoStatus(todo) {
+  if (todo) {
+    var defer = q.defer();
+    todoModal.updateOne(
+      { _id: todo._id },
+      { status: todo.status },
+      (err, data) => {
+        if (err) {
+          console.log("update todo status err ", err);
+          defer.reject(err);
+        }
+        defer.resolve(data);
+      }
+    );
+    return defer.promise;
+  }
+  return false;
+}
+/**
  * delete todo rely on _id
  * @param {todo} - Object todo {_id}
  */
@@ -86,4 +118,10 @@ function deleteTodo(_id) {
   }
   return false;
 }
-module.exports = { getTodos, insertTodo, updateTodo, deleteTodo };
+module.exports = {
+  getTodos,
+  insertTodo,
+  updateTodo,
+  updateTodoStatus,
+  deleteTodo
+};

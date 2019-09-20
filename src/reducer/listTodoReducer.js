@@ -1,36 +1,32 @@
 import * as types from "../actionTypes/index";
 
-import { getTodosApi, addTodoApi } from "../api/todoApi";
+// import { todoApi } from "../api/todoApi";
 
-export var initialState = [];
-
-getTodosApi()
-  .then(res => {
-    console.log("data", res.data);
-  })
-  .catch(err => {
-    console.log("err", err);
-  });
+export var initialState = {
+  pending: false,
+  todos: [],
+  error: null
+};
 
 export const listReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.GET_ALL:
-      return state;
-    case types.ADD_NEW:
-      var text = action.payload;
-      addTodoApi(text)
-        .then(res => {
-          console.log("res ", res);
-        })
-        .catch(err => {
-          console.log("err ", err);
-        });
-      return [...state];
-
-    case types.UPDATE:
-      return state;
-    case types.DELETE:
-      return state;
+    case types.FETCH_TODOS_PENDING:
+      return {
+        ...state,
+        pending: true
+      };
+    case types.FETCH_TODOS_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        todos: action.payload
+      };
+    case types.FETCH_TODOS_ERROR:
+      return {
+        ...state,
+        pending: false,
+        error: action.error
+      };
     default:
       return state;
   }

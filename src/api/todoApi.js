@@ -2,18 +2,29 @@ import axios from "axios";
 
 const baseUrl = "http://localhost:3001/api";
 
-export const getTodosApi = text => {
+const getAll = () => {
   return axios.get(`${baseUrl}/todos`);
 };
 
-export const addTodoApi = text => {
+const add = text => {
   return axios.post(`${baseUrl}/todo`, { text });
 };
 
-export const updateTodoApi = todo => {
-  return axios.put(`${baseUrl}/todo`, { todo });
+const update = todo => {
+  return axios.put(`${baseUrl}/todo`, todo);
+};
+const updateStatus = todo => {
+  return axios.patch(`${baseUrl}/todo`, todo);
 };
 
-export const deleteTodoApi = id => {
-  return axios.delete(`${baseUrl}/todo`, { id });
+const deleted = _id => {
+  return axios.delete(`${baseUrl}/todo`, { data: { _id } });
+};
+
+export const todoApi = {
+  getAll,
+  add,
+  update,
+  updateStatus,
+  deleted
 };

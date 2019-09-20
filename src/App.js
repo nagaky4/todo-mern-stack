@@ -13,7 +13,7 @@ function App() {
       <div className="container text-center">
         <div className="row">
           <useTodoContext.Provider>
-            <Jumbotron className="m-auto">
+            <Jumbotron className="m-auto " style={{ width: "100%" }}>
               <h1 className="display-3">Todo is the best</h1>
               <hr className="my-2" />
               <Container>

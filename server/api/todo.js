@@ -9,7 +9,6 @@ router.get("/todos", (req, res) => {
   todoModal
     .getTodos()
     .then(data => {
-      console.log("data", data);
       return res.status(200).json(data);
     })
     .catch(err => res.status(500).json(err));
@@ -23,7 +22,6 @@ router
       todoModal
         .insertTodo(text)
         .then(data => {
-          console.log("data", data);
           return res.status(200).json(data);
         })
         .catch(err => res.status(500).json(err));
@@ -33,9 +31,21 @@ router
   })
   .put((req, res) => {
     var todo = req.body;
+    console.log("todo", todo);
     if (todo) {
       todoModal
         .updateTodo(todo)
+        .then(data => res.status(200).json(data))
+        .catch(err => res.status(500).json(err));
+    } else {
+      return res.status(400).json({ error: "bad request" });
+    }
+  })
+  .patch((req, res) => {
+    var todo = req.body;
+    if (todo) {
+      todoModal
+        .updateTodoStatus(todo)
         .then(data => res.status(200).json(data))
         .catch(err => res.status(500).json(err));
     } else {
